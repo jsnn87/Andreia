@@ -98,6 +98,7 @@
             font-size: 1.1rem;
             font-weight: 400;
             word-wrap: break-word; /* Quebra palavras longas */
+            white-space: nowrap; /* Impede a quebra de linha no cabeçalho */
         }
 
         th {
@@ -189,6 +190,11 @@
             /* Permite rolagem horizontal para a tabela em dispositivos pequenos */
             .table-container {
                 overflow-x: auto; /* Aplica rolagem horizontal quando necessário */
+            }
+
+            /* Ajusta o texto do cabeçalho em telas pequenas */
+            th {
+                font-size: 0.8rem; /* Diminui o tamanho da fonte no cabeçalho */
             }
         }
     </style>
