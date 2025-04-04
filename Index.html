@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASICS - Medição de Calçado</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fb;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding-top: 12vh;
+            overflow-y: hidden;
+            transition: background-color 0.3s ease;
+        }
+
+        .header-container {
+            width: 96vw; /* Ajuste para ter a mesma largura do main-container */
+            height: 12vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #0077cc;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            padding: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .logo {
+            height: 6vh;
+            width: auto;
+            filter: brightness(0) invert(1);
+            margin-right: 15px;
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin: 0;
+        }
+
+        .main-container {
+            width: 96vw;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            border-radius: 12px;
+            position: fixed;
+            top: 12vh;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .table-container {
+            width: 100%;
+            flex-grow: 1; /* Faz a tabela ocupar o espaço restante */
+            overflow-x: auto;
+            overflow-y: auto; /* Aplica a rolagem quando necessário */
+            padding-bottom: 20px; /* Evita que a tabela fique colada na parte inferior */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+            table-layout: fixed; /* Força a tabela a respeitar as larguras definidas */
+        }
+
+        thead {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center; /* Centraliza o texto nas células */
+            font-size: 1.1rem;
+            font-weight: 400;
+            word-wrap: break-word; /* Quebra palavras longas */
+        }
+
+        th {
+            background-color: #0077cc;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+
+        td {
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        td:hover {
+            background-color: #f9f9f9;
+            color: #0077cc;
+        }
+
+        /* Personalizando a barra de rolagem */
+        .table-container::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        .table-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .table-container::-webkit-scrollbar-thumb {
+            background-color: #0077cc;
+            border-radius: 10px;
+        }
+
+        .table-container::-webkit-scrollbar-thumb:hover {
+            background-color: #005fa3;
+        }
+
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .header-container {
+                height: 10vh;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .main-container {
+                width: 95vw;
+                padding: 20px;
+                border-radius: 10px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .header-container {
+                height: 9vh;
+            }
+
+            .main-container {
+                width: 97vw;
+                padding: 8px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            th, td {
+                padding: 8px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-container">
+        <img src="https://i.ibb.co/nsyHpZDP/pngwing-com.png" alt="ASICS Logo" class="logo">
+        <h1>Medição de Calçado ASICS</h1>
+    </div>
+
+    <div class="main-container">
+        <div class="table-container">
+            <table id="data-table">
+                <thead>
+                    <tr id="table-header">
+                        <!-- Cabeçalhos serão inseridos aqui -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dados serão inseridos aqui -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // URL do seu Google Apps Script
+        const scriptURL = 'https://script.google.com/macros/s/AKfycby4JbTcfcwco0y_y4eqIZtCfcAd03nmFdjhZ6VpNpJ3c2XDUEVAUxo5HxGCGSfi5Nx1/exec';
+
+        fetch(scriptURL)
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.querySelector('#data-table tbody');
+                const tableHeader = document.querySelector('#table-header');
+                
+                // Criação do cabeçalho da tabela
+                if (data.length > 0) {
+                    const headers = Object.keys(data[0]);
+                    headers.forEach(header => {
+                        const th = document.createElement('th');
+                        th.textContent = header;
+                        tableHeader.appendChild(th);
+                    });
+                }
+                
+                // Função para formatar a data no formato dd/mm/yy
+                function formatDate(dateString) {
+                    const date = new Date(dateString);
+                    const day = ('0' + date.getDate()).slice(-2);
+                    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+                    const year = date.getFullYear().toString().slice(-2); // Pegando os dois últimos dígitos do ano
+                    return `${day}/${month}/${year}`;
+                }
+
+                // Preenchimento dos dados da tabela
+                data.forEach(row => {
+                    const tr = document.createElement('tr');
+                    Object.entries(row).forEach(([key, value]) => {
+                        const td = document.createElement('td');
+                        // Verifica se a chave é "DATA" e formata a data
+                        if (key.toLowerCase() === 'data' && value) {
+                            td.textContent = formatDate(value);
+                        } else {
+                            td.textContent = value;
+                        }
+                        tr.appendChild(td);
+                    });
+                    tableBody.appendChild(tr);
+                });
+
+                // Ajusta dinamicamente a largura das colunas
+                function adjustColumnWidths() {
+                    const table = document.getElementById('data-table');
+                    const headerCells = table.querySelectorAll('th');
+                    const bodyCells = table.querySelectorAll('tbody tr:first-child td');
+                    
+                    if (headerCells.length > 0 && bodyCells.length > 0) {
+                        headerCells.forEach((th, index) => {
+                            const headerWidth = th.scrollWidth;
+                            const bodyWidth = bodyCells[index].scrollWidth;
+                            const maxWidth = Math.max(headerWidth, bodyWidth);
+                            th.style.minWidth = `${maxWidth}px`;
+                            if (bodyCells[index]) {
+                                bodyCells[index].style.minWidth = `${maxWidth}px`;
+                            }
+                        });
+                    }
+                }
+
+                // Chama a função após carregar os dados
+                setTimeout(adjustColumnWidths, 100);
+            })
+            .catch(error => console.error('Error:', error));
+    </script>
+</body>
+</html>
