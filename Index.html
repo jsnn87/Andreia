@@ -144,6 +144,7 @@
             background-color: #005fa3;
         }
 
+        /* Responsividade para telas médias (tablets) */
         @media (min-width: 768px) and (max-width: 1024px) {
             .header-container {
                 height: 10vh;
@@ -158,8 +159,14 @@
                 padding: 20px;
                 border-radius: 10px;
             }
+
+            th, td {
+                padding: 10px;
+                font-size: 1rem;
+            }
         }
 
+        /* Responsividade para telas pequenas (celulares) */
         @media (max-width: 767px) {
             .header-container {
                 height: 9vh;
@@ -177,6 +184,11 @@
             th, td {
                 padding: 8px;
                 font-size: 0.9rem;
+            }
+
+            /* Permite rolagem horizontal para a tabela em dispositivos pequenos */
+            .table-container {
+                overflow-x: auto; /* Aplica rolagem horizontal quando necessário */
             }
         }
     </style>
